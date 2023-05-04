@@ -1,0 +1,22 @@
+﻿@model MilestoneWebApplication.Models.Cell
+
+@if (Model.Visited)
+{
+    if (Model.IsBomb)
+    {
+        <button type="button" class="button_bomb game-button" value="@Model.Id"><p>0</p></button>
+    }
+    else
+    {
+        <button type="button" class="button_clicked game-button" value="@Model.Id"><p>@Model.Neighbors.ToString()</p></button>
+    }
+}
+else if (Model.Flag)
+{
+    <button type="button" class="button_flag game-button" value="@Model.Id"><p>0</p></button>
+}
+
+else
+{
+    <button type="button" class="button game-button" value="@Model.Id"><p>0</p></button>
+}

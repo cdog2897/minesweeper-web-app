@@ -1,0 +1,24 @@
+﻿@model MilestoneWebApplication.Models.Board
+
+
+@if (Model.HasWon)
+{
+    <div>You won</div>
+}
+else
+{
+    @if (Model.IsFinished)
+    {
+        <div>
+            You Lost!
+        </div>
+    }
+    else
+    {
+        <div>
+            You have not won yet.
+        </div>
+    }
+}
+
+

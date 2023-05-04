@@ -1,0 +1,45 @@
+﻿@model MilestoneWebApplication.Models.Board
+
+@for (int x = 0; x < Model.Row; x++)
+{
+    for (int y = 0; y < Model.Col; y++)
+    {
+        if (Model.Grid[x, y].Visited)
+        {
+            if (Model.Grid[x, y].IsBomb)
+            {
+                <span id="@Model.Grid[x,y].Id ">
+                    <button class="button_bomb game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                </span>
+            }
+            else
+            {
+                <span id="@Model.Grid[x,y].Id">
+                    @if (Model.Grid[x, y].Neighbors == 0)
+                    {
+                        <button class="button_clicked game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                    }
+                    else
+                    {
+                        <button class="button_clicked game-button" value="@Model.Grid[x,y].Id"><p>@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                    }
+
+                </span>
+            }
+        }
+        else if (Model.Grid[x, y].Flag)
+        {
+            <span id="@Model.Grid[x,y].Id">
+                <button class="button_flag game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+            </span>
+        }
+        else
+        {
+            <span id="@Model.Grid[x,y].Id">
+                <button class="button game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+            </span>
+        }
+    }
+    <div class="line-break"></div>
+
+}

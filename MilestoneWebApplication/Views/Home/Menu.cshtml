@@ -1,0 +1,51 @@
+﻿@model MilestoneWebApplication.Models.User
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">Welcome to MineSweeper</h1>
+
+    </div>
+
+
+    @if (Model.savedGames != null)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Finished Game?</th>
+                    <th scope="col">Win?</th>
+                    <th scope="col">Time Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.savedGames.Count(); i++)
+                {
+                    <tr>
+                        <th scope="row">@Model.savedGames.ElementAt(i).Id</th>
+                        <td>@Model.savedGames.ElementAt(i).IsFinished</td>
+                        <td>@Model.savedGames.ElementAt(i).HasWon</td>
+                        <td>@Model.savedGames.ElementAt(i).TimeSaved</td>
+                        <td>
+
+                            <a class="btn btn-primary" type="submit" value="@Model.savedGames.ElementAt(i).Id" name="gameToLoad" asp-controller="Game" asp-action="LoadGame">Load Game</a>
+                            <a class="btn btn-danger" type="submit" value="@Model.savedGames.ElementAt(i).Id" name="gameToDelete" asp-controller="Home" asp-action="DeleteGame">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+    <a class="btn btn-primary" asp-area="" asp-controller="Game" asp-action="Index">New Game</a>
+    
+    <!---<button class="btn btn-primary" asp-controller="Game" asp-action="Index">New Game</button>-->
+
+</div>

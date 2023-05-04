@@ -1,0 +1,178 @@
+﻿@model MilestoneWebApplication.Models.Board
+
+<style>
+
+    .button {
+        border: 1px outset blue;
+        background-color: lightBlue;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .button_clicked {
+        border: 1px outset blue;
+        background-color: grey;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .button_bomb {
+        border: 1px outset blue;
+        background-color: red;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .button_flag {
+        border: 1px outset blue;
+        background-color: yellow;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .containButton {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .centerText {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .transparentText {
+        opacity: 0;
+    }
+</style>
+
+
+<div class="time_stamp">
+    <p>Last full page refresh: @DateTime.Now</p>
+</div>
+
+<div class="row">
+    <div class="col-lg-auto">
+
+        <div class="buttonZone">
+            @if (Model.HasWon == false && Model.IsFinished == true)
+            {
+                @for (int x = 0; x < Model.Row; x++)
+                {
+                    for (int y = 0; y < Model.Col; y++)
+                    {
+                        if (Model.Grid[x, y].IsBomb)
+                        {
+                            <span id="@Model.Grid[x,y].Id ">
+                                <button class="button_bomb game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                            </span>
+                        }
+                        else
+                        {
+                            <span id="@Model.Grid[x,y].Id">
+                                <button class="button_clicked game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                            </span>
+                        }
+                    }
+                    <div class="line-break"></div>
+
+                }
+            }
+            else
+            {
+                @for (int x = 0; x < Model.Row; x++)
+                {
+                    for (int y = 0; y < Model.Col; y++)
+                    {
+                        if (Model.Grid[x, y].Visited)
+                        {
+                            if (Model.Grid[x, y].IsBomb)
+                            {
+                                <span id="@Model.Grid[x,y].Id ">
+                                    <button class="button_bomb game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                                </span>
+                            }
+                            else
+                            {
+                                <span id="@Model.Grid[x,y].Id">
+                                    @if (Model.Grid[x, y].Neighbors == 0)
+                                    {
+                                        <button class="button_clicked game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="button_clicked game-button" value="@Model.Grid[x,y].Id"><p>@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                                    }
+
+                                </span>
+                            }
+                        }
+                        else if (Model.Grid[x, y].Flag)
+                        {
+                            <span id="@Model.Grid[x,y].Id">
+                                <button class="button_flag game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                            </span>
+                        }
+                        else
+                        {
+                            <span id="@Model.Grid[x,y].Id">
+                                <button class="button game-button" value="@Model.Grid[x,y].Id"><p class="transparentText">@Model.Grid[x, y].Neighbors.ToString()</p></button>
+                            </span>
+                        }
+                    }
+                    <div class="line-break"></div>
+
+                }
+            }
+        </div>
+    </div>
+    <div class="col">
+
+        <div class="row">
+            <div class="col">
+                <h4>Time Saved: </h4>
+            </div>
+            <div class="col">
+                <h3>@Model.TimeSaved</h3>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col">
+                <h4>Status: </h4>
+            </div>
+            <div class="col">
+                <div class="gameMessage">@Model.gameMessage()</div>
+            </div>
+        </div>
+        <br />
+        <form asp-action="SaveGameStatus">
+            <button type="submit" class="btn btn-primary">Save Game</button>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
